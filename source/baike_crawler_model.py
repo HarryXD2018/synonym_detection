@@ -71,7 +71,7 @@ def multi_thread_search(params):
 def baike_search(params):
     key_word, word_code = params
     key_word = data_utils.remove_parentheses(key_word)
-    # file = open('../output/baike_synonym.txt', 'a', encoding='utf8')
+    file = open('../output/baike_synonym.txt', 'a', encoding='utf8')
     try:
         base_url = 'https://baike.baidu.com/item/{a}'
         url = url_parse(base_url, key_word)
@@ -88,11 +88,11 @@ def baike_search(params):
         item_json.update(info_box_dict)
 
         synonym_list = get_synonym(item_json)
-        # if len(synonym_list) > 0:
-        #     write_line = word_code + '\t' + key_word + '\t' + '|'.join(synonym_list) + '\n'
-        #     file.write(write_line)
-        #
-        # logger.info(' input word = {a}, find {b} synonyms...'.format(a=key_word,b=len(synonym_list)))
+        if len(synonym_list) > 0:
+            write_line = word_code + '\t' + key_word + '\t' + '|'.join(synonym_list) + '\n'
+            file.write(write_line)
+
+        logger.info(' input word = {a}, find {b} synonyms...'.format(a=key_word,b=len(synonym_list)))
         return synonym_list
 
     except Exception:
