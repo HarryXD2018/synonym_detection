@@ -8,6 +8,7 @@ import re
 import data_utils
 import logging
 
+
 logger = logging.getLogger(__name__)
 local_file = os.path.split(__file__)[-1]
 logging.basicConfig(
@@ -70,7 +71,7 @@ def multi_thread_search(params):
 def baike_search(params):
     key_word, word_code = params
     key_word = data_utils.remove_parentheses(key_word)
-    file = open('../output/baike_synonym.txt', 'a', encoding='utf8')
+    # file = open('../output/baike_synonym.txt', 'a', encoding='utf8')
     try:
         base_url = 'https://baike.baidu.com/item/{a}'
         url = url_parse(base_url, key_word)
@@ -87,11 +88,11 @@ def baike_search(params):
         item_json.update(info_box_dict)
 
         synonym_list = get_synonym(item_json)
-        if len(synonym_list) > 0:
-            write_line = word_code + '\t' + key_word + '\t' + '|'.join(synonym_list) + '\n'
-            file.write(write_line)
-
-        logger.info(' input word = {a}, find {b} synonyms...'.format(a=key_word,b=len(synonym_list)))
+        # if len(synonym_list) > 0:
+        #     write_line = word_code + '\t' + key_word + '\t' + '|'.join(synonym_list) + '\n'
+        #     file.write(write_line)
+        #
+        # logger.info(' input word = {a}, find {b} synonyms...'.format(a=key_word,b=len(synonym_list)))
         return synonym_list
 
     except Exception:
@@ -101,7 +102,7 @@ def baike_search(params):
 
 
 def get_synonym(baike_json):
-    info_key = ['别称', '英文名称', '又称', '英文别名', '西医学名']
+    info_key = ['中文名', '别称', '英文名称', '又称', '英文别名', '西医学名', '字号','别名']
     pattern_list = ['俗称', '简称', '又称']
 
     info_set = set()
@@ -144,4 +145,4 @@ def seg(text):
 
 
 if __name__ == '__main__':
-    print(baike_search(('凤梨', 'cs11.33')))
+    print(baike_search(('孙中山', '001')))
